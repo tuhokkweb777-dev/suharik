@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сухарики?</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #ffd6e8, #ff9ec7, #ffc2e0);
+    overflow: hidden;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 2rem;
+    color: #3d1024; /* тёмный для контраста */
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+  }
+
+  .buttons {
+    display: flex;
+    gap: 30px;
+  }
+
+  button {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+  }
+
+  #yesBtn {
+    background: #d81b60;
+    color: #fff;
+  }
+
+  #yesBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 rgba(0,0,0,0.2);
+  }
+
+  #yesBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+  }
+
+  #noBtn {
+    background: #8e24aa;
+    color: #fff;
+    position: relative;
+    transition: left 0.25s ease, top 0.25s ease;
+  }
+
+  /* Надпись "Спасибки)" */
+  #thanks {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    background: #d81b60;
+    padding: 30px 60px;
+    border-radius: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    z-index: 100;
+  }
+
+  #thanks.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+</style>
+</head>
+<body>
+
+  <h1>Купишь мне сухарики?</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">Да</button>
+    <button id="noBtn">Нет</button>
+  </div>
+
+  <div id="thanks">Спасибки)</div>
+
+<script>
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn  = document.getElementById('noBtn');
+  const thanks = document.getElementById('thanks');
+
+  yesBtn.addEventListener('click', () => {
+    thanks.classList.add('show');
+    setTimeout(() => thanks.classList.remove('show'), 2500);
+  });
+
+  function runAway() {
+    const padding = 20;
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth  - btnW - padding;
+    const maxY = window.innerHeight - btnH - padding;
+
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = Math.max(padding, Math.random() * maxX) + 'px';
+    noBtn.style.top  = Math.max(padding, Math.random() * maxY) + 'px';
+  }
+
+  noBtn.addEventListener('mouseenter', runAway);
+  noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    runAway();
+  });
+  noBtn.addEventListener('click', runAway);
+</script>
+
+</body>
+</html>
